@@ -1,0 +1,39 @@
+syntax = "proto3";
+
+option go_package = "github.com/82595-jorge-capellan/school_protos";
+
+package data;
+
+service School {
+  rpc AddStudent (StudentRequest) returns (StudentResponse) {}
+  rpc AddScoreOfStudent (StudentScoreRequest) returns (StudentResponse) {}
+  rpc calculateFinalScore (StudentFinalScoreRequest) returns (StudentResponse) {}
+}
+
+
+message StudentRequest {
+    int32 id = 1;
+    string firstName = 2;
+    string lastName = 3;
+    int32 firstExam = 4;
+    int32 secondExam = 5;
+    int32 thirdExam = 6;
+    int32 asignmentScore = 7;
+    int32 finalScore = 8;
+
+}
+
+message StudentResponse {
+    string status = 1;
+    int32 finalScore = 2;
+}
+
+message StudentScoreRequest {
+    int32 id = 1;
+    int32 exam = 2;
+    int32 score = 3;
+}
+
+message StudentFinalScoreRequest {
+    int32 id = 1;
+}
