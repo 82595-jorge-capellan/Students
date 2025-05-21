@@ -30,12 +30,12 @@ func main() {
 	defer cancel()
 	r, err := c.AddStudent(ctx, &pb.StudentRequest{
 		Id: 3,
-		FirstName: "Jorge",
-		LastName: "Capellan",
-		FirstExam: 10,
-		SecondExam: 10,
-		ThirdExam: 10,
-		AsignmentScore: 10,
+		FirstName: "Federico",
+		LastName: "Fabra",
+		FirstExam: 2,
+		SecondExam: 2,
+		ThirdExam: 2,
+		AsignmentScore: 2,
 		FinalScore: 0,
 	})
 	if err != nil {
