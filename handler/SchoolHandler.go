@@ -39,21 +39,20 @@ func AddStudent(in *pb.StudentRequest) (*pb.StudentResponse, error) {
 
 	jsonBin = append(jsonBin, jsonStudent)
 
-	// //convertir nuevamente a json
-	// jsonFinal, err := json.Marshal(jsonBin)
-	// if err != nil {
-	// 	panic(err)
-	// }
+	//convertir nuevamente a json
+	jsonFinal, err := json.Marshal(jsonBin)
+	if err != nil {
+		panic(err)
+	}
 
-	// //enviar el json final a service para updatear
-	// response, err := service.UpdateBin(jsonFinal)
-	// if err != nil {
-	// 	panic(err)
-	// }
+	//enviar el json final a service para updatear
+	response, err := service.UpdateBin(jsonFinal)
+	if err != nil {
+		panic(err)
+	}
 
 	return &pb.StudentResponse{
-		Status: "temporal",
-		// Status: string(response),
+		Status: string(response),
 		FinalScore: 0,
 		}, nil
 }
