@@ -9,7 +9,7 @@ import (
 	"log"
 )
 
-func AddStudent(jsonreq []byte) ([]byte, error) {
+func UpdateBin(jsonreq []byte) ([]byte, error) {
 
 	//secretos hardcodeados D:
 	url := "https://api.jsonbin.io/v3/b/682a35bf8a456b7966a092ff"

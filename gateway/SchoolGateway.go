@@ -14,3 +14,7 @@ type Server struct {
 func (s *Server) AddStudent(_ context.Context, in *pb.StudentRequest) (*pb.StudentResponse, error) {
 	return handler.AddStudent(in)
 }
+
+func (s *Server) AddScoreOfStudent(_ context.Context, in *pb.StudentScoreRequest) (*pb.StudentResponse, error) {
+	return handler.AddScoreOfStudent(in)
+}
