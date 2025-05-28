@@ -1,19 +1,19 @@
 package main
 
 import (
+	"bufio"
 	"context"
 	"flag"
-	"log"
-	"time"
 	"fmt"
-	"bufio"
+	"log"
 	"os"
 	"strconv"
 	"strings"
+	"time"
 
+	pb "github.com/82595-jorge-capellan/protobuf"
 	"google.golang.org/grpc"
 	"google.golang.org/grpc/credentials/insecure"
-	pb "github.com/82595-jorge-capellan/protobuf"
 )
 
 var (
@@ -29,15 +29,6 @@ func main() {
 	}
 	defer conn.Close()
 	c := pb.NewSchoolClient(conn)
-
-	// Contact the server and print out its response.
-	//AddStudent(c)
-
-	//AddScoreOfStudent(c)
-
-	//CalculateFinalScore(c)
-
-
 
 	reader := bufio.NewReader(os.Stdin)
 
@@ -69,7 +60,6 @@ func main() {
 		fmt.Println()
 	}
 
-
 }
 
 func AddStudent(reader *bufio.Reader, c pb.SchoolClient) {
@@ -79,9 +69,6 @@ func AddStudent(reader *bufio.Reader, c pb.SchoolClient) {
 	idString = strings.TrimSpace(idString)
 	id64, _ := strconv.ParseInt(idString, 10, 32)
 	id := int32(id64)
-
-	fmt.Printf("valor %s", id)
-
 
 	fmt.Print("Nombre: ")
 	nombre, _ := reader.ReadString('\n')
@@ -118,21 +105,20 @@ func AddStudent(reader *bufio.Reader, c pb.SchoolClient) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	r, err := c.AddStudent(ctx, &pb.StudentRequest{
-		Id: id,
-		FirstName: nombre,
-		LastName: apellido,
-		FirstExam: primerExamen,
-		SecondExam: segundoExamen,
-		ThirdExam: tercerExamen,
+		Id:             id,
+		FirstName:      nombre,
+		LastName:       apellido,
+		FirstExam:      primerExamen,
+		SecondExam:     segundoExamen,
+		ThirdExam:      tercerExamen,
 		AsignmentScore: trabajosPracticos,
-		FinalScore: 0,
+		FinalScore:     0,
 	})
 	if err != nil {
 		log.Fatalf("could not add student: %v", err)
 	}
 	log.Printf("student added: %s", r.GetStatus())
 }
-
 
 func AddScoreOfStudent(reader *bufio.Reader, c pb.SchoolClient) {
 	fmt.Println("\n--- Ingreso de datos de persona ---")
@@ -157,8 +143,8 @@ func AddScoreOfStudent(reader *bufio.Reader, c pb.SchoolClient) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	r, err := c.AddScoreOfStudent(ctx, &pb.StudentScoreRequest{
-		Id: id,
-		Exam: exam,
+		Id:    id,
+		Exam:  exam,
 		Score: score,
 	})
 	if err != nil {

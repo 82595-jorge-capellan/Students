@@ -1,142 +1,67 @@
 package SchoolHandler
 
 import (
-	"log"
-	"encoding/json"
-	"google.golang.org/protobuf/encoding/protojson"
+	mapper "github.com/82595-jorge-capellan/mapper"
 	pb "github.com/82595-jorge-capellan/protobuf"
 	service "github.com/82595-jorge-capellan/service"
 )
 
-type StudentRequestModel struct {
-	Id					int32 		`json:"id"`
-	FirstName			string		`json:"FirstName"`
-	LastName			string		`json:"LastName"`
-	FirstExam			int32		`json:"FirstExam"`
-	SecondExam			int32		`json:"SecondExam"`
-	ThirdExam			int32		`json:"ThirdExam"`
-	AsignmentScore		int32		`json:"AsignmentScore"`
-	FinalScore			int32		`json:"FinalScore, omitempty"`
-}
-
 func AddStudent(in *pb.StudentRequest) (*pb.StudentResponse, error) {
 
+	// Estos 2 pasos se hacen asi porque es preferible pasar proto->json->model que proto->model
 	//conversion de proto a json
-	jsonRequest, err := protojson.Marshal(in)
-	if err != nil {
-        log.Fatalf("Error al convertir proto a JSON: %v", err)
-    }
+	jsonStudent := mapper.ProtoStudentToJson(in)
+	// transformar estudiante json a estudiante model
+	modelStudent := mapper.JsonStudentToModel(jsonStudent)
 
-	//recibir map de json de estudiantes del service
-	jsonBin, _ := service.GetJSON()
-
-	//apendar el request al json total
-	var jsonStudent map[string]interface{}
-	err = json.Unmarshal([]byte(jsonRequest), &jsonStudent)
-	if err != nil {
-    	panic(err)
-	}
-
-	jsonBin = append(jsonBin, jsonStudent)
-
-	//convertir nuevamente a json
-	jsonFinal, err := json.Marshal(jsonBin)
-	if err != nil {
-		panic(err)
-	}
-
-	//enviar el json final a service para updatear
-	response, err := service.UpdateBin(jsonFinal)
-	if err != nil {
-		panic(err)
-	}
-
+	//agregamos el estudiante sin un _id especifico en el documento de opensearch
+	res, _ := service.AddStudent(modelStudent, "")
 	return &pb.StudentResponse{
-		Status: string(response),
+		Status:     res,
 		FinalScore: 0,
-		}, nil
+	}, nil
 }
 
 func AddScoreOfStudent(in *pb.StudentScoreRequest) (*pb.StudentResponse, error) {
 
-	//recibir map de json de estudiantes del service
-	jsonBin, _ := service.GetJSON()
+	//obtenemos el estudiante con el id que buscamos y el _id del documento de opensearch
+	student, docid, _ := service.SearchStudentByID(in.Id)
 
-	for i, student := range jsonBin {
-		log.Printf("student %v\n", i)
-
-		if id, ok := student["id"].(float64); ok {
-			if int32(id) == in.GetId() {
-				if in.GetExam() == 1{
-					student["firstExam"] = in.GetScore()
-				} else if in.GetExam() == 2 {
-					student["secondExam"] = in.GetScore()
-				} else {
-					student["thirdExam"] = in.GetScore()
-				}
-			}
-		}
+	switch in.GetExam() {
+	case 1:
+		student.FirstExam = in.GetScore()
+	case 2:
+		student.SecondExam = in.GetScore()
+	case 3:
+		student.ThirdExam = in.GetScore()
 	}
 
-	//convertir nuevamente a json
-	jsonFinal, err := json.Marshal(jsonBin)
-	if err != nil {
-		panic(err)
-	}
-
-	//enviar el json final a service para updatear
-	response, err := service.UpdateBin(jsonFinal)
-	if err != nil {
-		panic(err)
-	}
-
+	//agregamos el estudiante con un _id de documento especifico para que sobreescriba el estudiante anterior(el mismo)
+	res, _ := service.AddStudent(student, docid)
 	return &pb.StudentResponse{
-		Status: string(response),
+		Status:     res,
 		FinalScore: 0,
-		}, nil
+	}, nil
 }
 
 func CalculateFinalScore(in *pb.StudentFinalScoreRequest) (*pb.StudentResponse, error) {
 
-	//recibir map de json de estudiantes del service
-	jsonBin, _ := service.GetJSON()
+	//obtenemos el estudiante con el id que buscamos y el _id del documento de opensearch
+	student, docid, _ := service.SearchStudentByID(in.Id)
 
-	for i, student := range jsonBin {
-		log.Printf("student %v\n", i)
+	exam1 := student.FirstExam
+	exam2 := student.SecondExam
+	exam3 := student.ThirdExam
+	asignments := student.AsignmentScore
 
-		if id, ok := student["id"].(float64); ok {
-			if int32(id) == in.GetId() {
-				exam1 := student["firstExam"].(float64)
-				exam2:= student["secondExam"].(float64)
-				exam3:= student["thirdExam"].(float64)
-				asignments := student["asignmentScore"].(float64)
+	finalScore := (exam1 + exam2 + exam3 + asignments) / 4
 
-				finalScore := (exam1 + exam2 + exam3 + asignments)/4
+	student.FinalScore = finalScore
 
-				student["finalScore"] = finalScore
-
-			}
-		}
-	}
-
-	//convertir nuevamente a json
-	jsonFinal, err := json.Marshal(jsonBin)
-	if err != nil {
-		panic(err)
-	}
-
-	//enviar el json final a service para updatear
-	response, err := service.UpdateBin(jsonFinal)
-	if err != nil {
-		panic(err)
-	}
-
+	//agregamos el estudiante con un _id de documento especifico para que sobreescriba el estudiante anterior(el mismo)
+	res, _ := service.AddStudent(student, docid)
 	return &pb.StudentResponse{
-		Status: string(response),
+		Status:     res,
 		FinalScore: 0,
-		}, nil
-	}
-
-
-
-
+	}, nil
+}

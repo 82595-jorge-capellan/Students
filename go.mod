@@ -3,6 +3,7 @@ module github.com/82595-jorge-capellan
 go 1.24.3
 
 require (
+	github.com/opensearch-project/opensearch-go v1.1.0 // indirect
 	golang.org/x/net v0.35.0 // indirect
 	golang.org/x/sys v0.30.0 // indirect
 	golang.org/x/text v0.22.0 // indirect
