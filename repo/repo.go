@@ -25,6 +25,16 @@ type OpenSearchResponse struct {
 	} `json:"hits"`
 }
 
+type MSearchResponse struct {
+	Responses []struct {
+		Hits struct {
+			Hits []struct {
+				Source mapper.StudentRequestModel `json:"_source"`
+			} `json:"hits"`
+		} `json:"hits"`
+	} `json:"responses"`
+}
+
 func AddStudent(student *mapper.StudentRequestModel, optionalID string) (string, error) {
 
 	//creamos el cliente de opensearch con ip, credenciales y configuraciones de transporte
@@ -49,7 +59,7 @@ func AddStudent(student *mapper.StudentRequestModel, optionalID string) (string,
 
 	//creamos la request con indice students y el body que son los datos del estudiante
 	req := opensearchapi.IndexRequest{
-		Index: "students",
+		Index: student.Subject,
 		Body:  bytes.NewReader(studentBytes),
 	}
 	//si tenemos un _id de documento lo agregamos a la request, si no opensearch nos crea uno
@@ -63,7 +73,7 @@ func AddStudent(student *mapper.StudentRequestModel, optionalID string) (string,
 	return res.String(), nil
 }
 
-func SearchStudentByID(id int32) (mapper.StudentRequestModel, string, error) {
+func SearchStudentByID(id int32, subject string) (mapper.StudentRequestModel, string, error) {
 	client, err := opensearch.NewClient(opensearch.Config{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
@@ -75,10 +85,10 @@ func SearchStudentByID(id int32) (mapper.StudentRequestModel, string, error) {
 	if err != nil {
 		log.Fatalf("Error creando el cliente de OpenSearch: %s", err)
 	}
-	clientResponse, err := client.Info()
-	fmt.Printf("client: %v - error: %v", clientResponse, err)
+	// clientResponse, err := client.Info()
+	// fmt.Printf("client: %v - error: %v", clientResponse, err)
 
-	fmt.Printf("id usada: %v \n", id)
+	// fmt.Printf("id usada: %v \n", id)
 
 	query := map[string]interface{}{
 		"query": map[string]interface{}{
@@ -93,7 +103,7 @@ func SearchStudentByID(id int32) (mapper.StudentRequestModel, string, error) {
 	content, _ := json.Marshal(query)
 
 	req := opensearchapi.SearchRequest{
-		Index: []string{"students"},
+		Index: []string{subject},
 		Body:  bytes.NewReader(content),
 	}
 
@@ -107,4 +117,71 @@ func SearchStudentByID(id int32) (mapper.StudentRequestModel, string, error) {
 
 	defer res.Body.Close()
 	return body.Hits.Hits[0].Source, body.Hits.Hits[0].ID, nil
+}
+
+func MsearchSearchStudent(id int32) []mapper.StudentRequestModel {
+	client, err := opensearch.NewClient(opensearch.Config{
+		Transport: &http.Transport{
+			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+		},
+		Addresses: []string{"https://localhost:9200"},
+		Username:  "admin", // For testing only. Don't store credentials in code.
+		Password:  "Opensearch1234*",
+	})
+	if err != nil {
+		log.Fatalf("Error creando el cliente de OpenSearch: %s", err)
+	}
+	// clientResponse, err := client.Info()
+	// fmt.Printf("client: %v - error: %v", clientResponse, err)
+
+	fmt.Printf("id usada: %v \n", id)
+
+	indices := []string{"math", "biology", "chemistry"}
+	queryMap := map[string]interface{}{
+		"query": map[string]interface{}{
+			"term": map[string]interface{}{
+				"id": map[string]interface{}{
+					"value": id,
+				},
+			},
+		},
+	}
+	var buffer bytes.Buffer
+	for _, index := range indices {
+		// Línea 1: metadatos
+		meta := map[string]interface{}{
+			"index": index,
+		}
+		metaJSON, _ := json.Marshal(meta)
+		buffer.Write(metaJSON)
+		buffer.WriteByte('\n')
+
+		// Línea 2: query
+		queryJSON, _ := json.Marshal(queryMap)
+		buffer.Write(queryJSON)
+		buffer.WriteByte('\n')
+	}
+
+	req := opensearchapi.MsearchRequest{
+		Body: bytes.NewReader(buffer.Bytes()),
+	}
+
+	res, _ := req.Do(context.Background(), client)
+
+	var msearchResp MSearchResponse
+
+	if err := json.NewDecoder(res.Body).Decode(&msearchResp); err != nil {
+		log.Fatalf("Error decoding MSearch response: %s", err)
+	}
+	var results []mapper.StudentRequestModel
+
+	// Extraer todos los _source de cada búsqueda
+	for _, resp := range msearchResp.Responses {
+		for _, hit := range resp.Hits.Hits {
+			results = append(results, hit.Source)
+		}
+	}
+
+	defer res.Body.Close()
+	return results
 }

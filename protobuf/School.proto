@@ -8,6 +8,15 @@ service School {
   rpc AddStudent (StudentRequest) returns (StudentResponse) {}
   rpc AddScoreOfStudent (StudentScoreRequest) returns (StudentResponse) {}
   rpc calculateFinalScore (StudentFinalScoreRequest) returns (StudentResponse) {}
+  rpc SearchStudentByID (StudentSearchRequest) returns (StudentSearchResponse) {}
+}
+
+message StudentSearchRequest {
+    int32 id = 1;
+}
+
+message StudentSearchResponse {
+    repeated StudentRequest studentSubject = 1;
 }
 
 
@@ -19,7 +28,8 @@ message StudentRequest {
     int32 secondExam = 5;
     int32 thirdExam = 6;
     int32 asignmentScore = 7;
-    int32 finalScore = 8;
+    float finalScore = 8;
+    string subject = 9;
 
 }
 
@@ -32,8 +42,10 @@ message StudentScoreRequest {
     int32 id = 1;
     int32 exam = 2;
     int32 score = 3;
+    string subject = 4;
 }
 
 message StudentFinalScoreRequest {
     int32 id = 1;
+    string subject = 2;
 }

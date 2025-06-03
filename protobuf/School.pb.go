@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.0
-// source: protobuf/School.proto
+// source: school.proto
 
 package school_protos
 
@@ -21,6 +21,94 @@ const (
 	_ = protoimpl.EnforceVersion(protoimpl.MaxVersion - 20)
 )
 
+type StudentSearchRequest struct {
+	state         protoimpl.MessageState `protogen:"open.v1"`
+	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *StudentSearchRequest) Reset() {
+	*x = StudentSearchRequest{}
+	mi := &file_school_proto_msgTypes[0]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StudentSearchRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StudentSearchRequest) ProtoMessage() {}
+
+func (x *StudentSearchRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_school_proto_msgTypes[0]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StudentSearchRequest.ProtoReflect.Descriptor instead.
+func (*StudentSearchRequest) Descriptor() ([]byte, []int) {
+	return file_school_proto_rawDescGZIP(), []int{0}
+}
+
+func (x *StudentSearchRequest) GetId() int32 {
+	if x != nil {
+		return x.Id
+	}
+	return 0
+}
+
+type StudentSearchResponse struct {
+	state          protoimpl.MessageState `protogen:"open.v1"`
+	StudentSubject []*StudentRequest      `protobuf:"bytes,1,rep,name=studentSubject,proto3" json:"studentSubject,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *StudentSearchResponse) Reset() {
+	*x = StudentSearchResponse{}
+	mi := &file_school_proto_msgTypes[1]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *StudentSearchResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*StudentSearchResponse) ProtoMessage() {}
+
+func (x *StudentSearchResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_school_proto_msgTypes[1]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use StudentSearchResponse.ProtoReflect.Descriptor instead.
+func (*StudentSearchResponse) Descriptor() ([]byte, []int) {
+	return file_school_proto_rawDescGZIP(), []int{1}
+}
+
+func (x *StudentSearchResponse) GetStudentSubject() []*StudentRequest {
+	if x != nil {
+		return x.StudentSubject
+	}
+	return nil
+}
+
 type StudentRequest struct {
 	state          protoimpl.MessageState `protogen:"open.v1"`
 	Id             int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
@@ -30,14 +118,15 @@ type StudentRequest struct {
 	SecondExam     int32                  `protobuf:"varint,5,opt,name=secondExam,proto3" json:"secondExam,omitempty"`
 	ThirdExam      int32                  `protobuf:"varint,6,opt,name=thirdExam,proto3" json:"thirdExam,omitempty"`
 	AsignmentScore int32                  `protobuf:"varint,7,opt,name=asignmentScore,proto3" json:"asignmentScore,omitempty"`
-	FinalScore     int32                  `protobuf:"varint,8,opt,name=finalScore,proto3" json:"finalScore,omitempty"`
+	FinalScore     float32                `protobuf:"fixed32,8,opt,name=finalScore,proto3" json:"finalScore,omitempty"`
+	Subject        string                 `protobuf:"bytes,9,opt,name=subject,proto3" json:"subject,omitempty"`
 	unknownFields  protoimpl.UnknownFields
 	sizeCache      protoimpl.SizeCache
 }
 
 func (x *StudentRequest) Reset() {
 	*x = StudentRequest{}
-	mi := &file_protobuf_School_proto_msgTypes[0]
+	mi := &file_school_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -49,7 +138,7 @@ func (x *StudentRequest) String() string {
 func (*StudentRequest) ProtoMessage() {}
 
 func (x *StudentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_School_proto_msgTypes[0]
+	mi := &file_school_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -62,7 +151,7 @@ func (x *StudentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StudentRequest.ProtoReflect.Descriptor instead.
 func (*StudentRequest) Descriptor() ([]byte, []int) {
-	return file_protobuf_School_proto_rawDescGZIP(), []int{0}
+	return file_school_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *StudentRequest) GetId() int32 {
@@ -114,11 +203,18 @@ func (x *StudentRequest) GetAsignmentScore() int32 {
 	return 0
 }
 
-func (x *StudentRequest) GetFinalScore() int32 {
+func (x *StudentRequest) GetFinalScore() float32 {
 	if x != nil {
 		return x.FinalScore
 	}
 	return 0
+}
+
+func (x *StudentRequest) GetSubject() string {
+	if x != nil {
+		return x.Subject
+	}
+	return ""
 }
 
 type StudentResponse struct {
@@ -131,7 +227,7 @@ type StudentResponse struct {
 
 func (x *StudentResponse) Reset() {
 	*x = StudentResponse{}
-	mi := &file_protobuf_School_proto_msgTypes[1]
+	mi := &file_school_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -143,7 +239,7 @@ func (x *StudentResponse) String() string {
 func (*StudentResponse) ProtoMessage() {}
 
 func (x *StudentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_School_proto_msgTypes[1]
+	mi := &file_school_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -156,7 +252,7 @@ func (x *StudentResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StudentResponse.ProtoReflect.Descriptor instead.
 func (*StudentResponse) Descriptor() ([]byte, []int) {
-	return file_protobuf_School_proto_rawDescGZIP(), []int{1}
+	return file_school_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *StudentResponse) GetStatus() string {
@@ -178,13 +274,14 @@ type StudentScoreRequest struct {
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
 	Exam          int32                  `protobuf:"varint,2,opt,name=exam,proto3" json:"exam,omitempty"`
 	Score         int32                  `protobuf:"varint,3,opt,name=score,proto3" json:"score,omitempty"`
+	Subject       string                 `protobuf:"bytes,4,opt,name=subject,proto3" json:"subject,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StudentScoreRequest) Reset() {
 	*x = StudentScoreRequest{}
-	mi := &file_protobuf_School_proto_msgTypes[2]
+	mi := &file_school_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -196,7 +293,7 @@ func (x *StudentScoreRequest) String() string {
 func (*StudentScoreRequest) ProtoMessage() {}
 
 func (x *StudentScoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_School_proto_msgTypes[2]
+	mi := &file_school_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -209,7 +306,7 @@ func (x *StudentScoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StudentScoreRequest.ProtoReflect.Descriptor instead.
 func (*StudentScoreRequest) Descriptor() ([]byte, []int) {
-	return file_protobuf_School_proto_rawDescGZIP(), []int{2}
+	return file_school_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *StudentScoreRequest) GetId() int32 {
@@ -233,16 +330,24 @@ func (x *StudentScoreRequest) GetScore() int32 {
 	return 0
 }
 
+func (x *StudentScoreRequest) GetSubject() string {
+	if x != nil {
+		return x.Subject
+	}
+	return ""
+}
+
 type StudentFinalScoreRequest struct {
 	state         protoimpl.MessageState `protogen:"open.v1"`
 	Id            int32                  `protobuf:"varint,1,opt,name=id,proto3" json:"id,omitempty"`
+	Subject       string                 `protobuf:"bytes,2,opt,name=subject,proto3" json:"subject,omitempty"`
 	unknownFields protoimpl.UnknownFields
 	sizeCache     protoimpl.SizeCache
 }
 
 func (x *StudentFinalScoreRequest) Reset() {
 	*x = StudentFinalScoreRequest{}
-	mi := &file_protobuf_School_proto_msgTypes[3]
+	mi := &file_school_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -254,7 +359,7 @@ func (x *StudentFinalScoreRequest) String() string {
 func (*StudentFinalScoreRequest) ProtoMessage() {}
 
 func (x *StudentFinalScoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_protobuf_School_proto_msgTypes[3]
+	mi := &file_school_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -267,7 +372,7 @@ func (x *StudentFinalScoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StudentFinalScoreRequest.ProtoReflect.Descriptor instead.
 func (*StudentFinalScoreRequest) Descriptor() ([]byte, []int) {
-	return file_protobuf_School_proto_rawDescGZIP(), []int{3}
+	return file_school_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *StudentFinalScoreRequest) GetId() int32 {
@@ -277,11 +382,22 @@ func (x *StudentFinalScoreRequest) GetId() int32 {
 	return 0
 }
 
-var File_protobuf_School_proto protoreflect.FileDescriptor
+func (x *StudentFinalScoreRequest) GetSubject() string {
+	if x != nil {
+		return x.Subject
+	}
+	return ""
+}
 
-const file_protobuf_School_proto_rawDesc = "" +
+var File_school_proto protoreflect.FileDescriptor
+
+const file_school_proto_rawDesc = "" +
 	"\n" +
-	"\x15protobuf/School.proto\x12\x04data\"\xfe\x01\n" +
+	"\fschool.proto\x12\x04data\"&\n" +
+	"\x14StudentSearchRequest\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\"U\n" +
+	"\x15StudentSearchResponse\x12<\n" +
+	"\x0estudentSubject\x18\x01 \x03(\v2\x14.data.StudentRequestR\x0estudentSubject\"\x98\x02\n" +
 	"\x0eStudentRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x1c\n" +
 	"\tfirstName\x18\x02 \x01(\tR\tfirstName\x12\x1a\n" +
@@ -293,78 +409,87 @@ const file_protobuf_School_proto_rawDesc = "" +
 	"\tthirdExam\x18\x06 \x01(\x05R\tthirdExam\x12&\n" +
 	"\x0easignmentScore\x18\a \x01(\x05R\x0easignmentScore\x12\x1e\n" +
 	"\n" +
-	"finalScore\x18\b \x01(\x05R\n" +
-	"finalScore\"I\n" +
+	"finalScore\x18\b \x01(\x02R\n" +
+	"finalScore\x12\x18\n" +
+	"\asubject\x18\t \x01(\tR\asubject\"I\n" +
 	"\x0fStudentResponse\x12\x16\n" +
 	"\x06status\x18\x01 \x01(\tR\x06status\x12\x1e\n" +
 	"\n" +
 	"finalScore\x18\x02 \x01(\x05R\n" +
-	"finalScore\"O\n" +
+	"finalScore\"i\n" +
 	"\x13StudentScoreRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x12\n" +
 	"\x04exam\x18\x02 \x01(\x05R\x04exam\x12\x14\n" +
-	"\x05score\x18\x03 \x01(\x05R\x05score\"*\n" +
+	"\x05score\x18\x03 \x01(\x05R\x05score\x12\x18\n" +
+	"\asubject\x18\x04 \x01(\tR\asubject\"D\n" +
 	"\x18StudentFinalScoreRequest\x12\x0e\n" +
-	"\x02id\x18\x01 \x01(\x05R\x02id2\xde\x01\n" +
+	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x18\n" +
+	"\asubject\x18\x02 \x01(\tR\asubject2\xae\x02\n" +
 	"\x06School\x12;\n" +
 	"\n" +
 	"AddStudent\x12\x14.data.StudentRequest\x1a\x15.data.StudentResponse\"\x00\x12G\n" +
 	"\x11AddScoreOfStudent\x12\x19.data.StudentScoreRequest\x1a\x15.data.StudentResponse\"\x00\x12N\n" +
-	"\x13calculateFinalScore\x12\x1e.data.StudentFinalScoreRequest\x1a\x15.data.StudentResponse\"\x00B/Z-github.com/82595-jorge-capellan/school_protosb\x06proto3"
+	"\x13calculateFinalScore\x12\x1e.data.StudentFinalScoreRequest\x1a\x15.data.StudentResponse\"\x00\x12N\n" +
+	"\x11SearchStudentByID\x12\x1a.data.StudentSearchRequest\x1a\x1b.data.StudentSearchResponse\"\x00B/Z-github.com/82595-jorge-capellan/school_protosb\x06proto3"
 
 var (
-	file_protobuf_School_proto_rawDescOnce sync.Once
-	file_protobuf_School_proto_rawDescData []byte
+	file_school_proto_rawDescOnce sync.Once
+	file_school_proto_rawDescData []byte
 )
 
-func file_protobuf_School_proto_rawDescGZIP() []byte {
-	file_protobuf_School_proto_rawDescOnce.Do(func() {
-		file_protobuf_School_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_protobuf_School_proto_rawDesc), len(file_protobuf_School_proto_rawDesc)))
+func file_school_proto_rawDescGZIP() []byte {
+	file_school_proto_rawDescOnce.Do(func() {
+		file_school_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_school_proto_rawDesc), len(file_school_proto_rawDesc)))
 	})
-	return file_protobuf_School_proto_rawDescData
+	return file_school_proto_rawDescData
 }
 
-var file_protobuf_School_proto_msgTypes = make([]protoimpl.MessageInfo, 4)
-var file_protobuf_School_proto_goTypes = []any{
-	(*StudentRequest)(nil),           // 0: data.StudentRequest
-	(*StudentResponse)(nil),          // 1: data.StudentResponse
-	(*StudentScoreRequest)(nil),      // 2: data.StudentScoreRequest
-	(*StudentFinalScoreRequest)(nil), // 3: data.StudentFinalScoreRequest
+var file_school_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_school_proto_goTypes = []any{
+	(*StudentSearchRequest)(nil),     // 0: data.StudentSearchRequest
+	(*StudentSearchResponse)(nil),    // 1: data.StudentSearchResponse
+	(*StudentRequest)(nil),           // 2: data.StudentRequest
+	(*StudentResponse)(nil),          // 3: data.StudentResponse
+	(*StudentScoreRequest)(nil),      // 4: data.StudentScoreRequest
+	(*StudentFinalScoreRequest)(nil), // 5: data.StudentFinalScoreRequest
 }
-var file_protobuf_School_proto_depIdxs = []int32{
-	0, // 0: data.School.AddStudent:input_type -> data.StudentRequest
-	2, // 1: data.School.AddScoreOfStudent:input_type -> data.StudentScoreRequest
-	3, // 2: data.School.calculateFinalScore:input_type -> data.StudentFinalScoreRequest
-	1, // 3: data.School.AddStudent:output_type -> data.StudentResponse
-	1, // 4: data.School.AddScoreOfStudent:output_type -> data.StudentResponse
-	1, // 5: data.School.calculateFinalScore:output_type -> data.StudentResponse
-	3, // [3:6] is the sub-list for method output_type
-	0, // [0:3] is the sub-list for method input_type
-	0, // [0:0] is the sub-list for extension type_name
-	0, // [0:0] is the sub-list for extension extendee
-	0, // [0:0] is the sub-list for field type_name
+var file_school_proto_depIdxs = []int32{
+	2, // 0: data.StudentSearchResponse.studentSubject:type_name -> data.StudentRequest
+	2, // 1: data.School.AddStudent:input_type -> data.StudentRequest
+	4, // 2: data.School.AddScoreOfStudent:input_type -> data.StudentScoreRequest
+	5, // 3: data.School.calculateFinalScore:input_type -> data.StudentFinalScoreRequest
+	0, // 4: data.School.SearchStudentByID:input_type -> data.StudentSearchRequest
+	3, // 5: data.School.AddStudent:output_type -> data.StudentResponse
+	3, // 6: data.School.AddScoreOfStudent:output_type -> data.StudentResponse
+	3, // 7: data.School.calculateFinalScore:output_type -> data.StudentResponse
+	1, // 8: data.School.SearchStudentByID:output_type -> data.StudentSearchResponse
+	5, // [5:9] is the sub-list for method output_type
+	1, // [1:5] is the sub-list for method input_type
+	1, // [1:1] is the sub-list for extension type_name
+	1, // [1:1] is the sub-list for extension extendee
+	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_protobuf_School_proto_init() }
-func file_protobuf_School_proto_init() {
-	if File_protobuf_School_proto != nil {
+func init() { file_school_proto_init() }
+func file_school_proto_init() {
+	if File_school_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_protobuf_School_proto_rawDesc), len(file_protobuf_School_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_school_proto_rawDesc), len(file_school_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   4,
+			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_protobuf_School_proto_goTypes,
-		DependencyIndexes: file_protobuf_School_proto_depIdxs,
-		MessageInfos:      file_protobuf_School_proto_msgTypes,
+		GoTypes:           file_school_proto_goTypes,
+		DependencyIndexes: file_school_proto_depIdxs,
+		MessageInfos:      file_school_proto_msgTypes,
 	}.Build()
-	File_protobuf_School_proto = out.File
-	file_protobuf_School_proto_goTypes = nil
-	file_protobuf_School_proto_depIdxs = nil
+	File_school_proto = out.File
+	file_school_proto_goTypes = nil
+	file_school_proto_depIdxs = nil
 }

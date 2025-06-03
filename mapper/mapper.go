@@ -9,14 +9,15 @@ import (
 )
 
 type StudentRequestModel struct {
-	Id             int32  `json:"id"`
-	FirstName      string `json:"FirstName"`
-	LastName       string `json:"LastName"`
-	FirstExam      int32  `json:"FirstExam"`
-	SecondExam     int32  `json:"SecondExam"`
-	ThirdExam      int32  `json:"ThirdExam"`
-	AsignmentScore int32  `json:"AsignmentScore"`
-	FinalScore     int32  `json:"FinalScore,omitempty"`
+	Id             int32   `json:"id"`
+	FirstName      string  `json:"FirstName"`
+	LastName       string  `json:"LastName"`
+	FirstExam      int32   `json:"FirstExam"`
+	SecondExam     int32   `json:"SecondExam"`
+	ThirdExam      int32   `json:"ThirdExam"`
+	AsignmentScore int32   `json:"AsignmentScore"`
+	FinalScore     float32 `json:"FinalScore,omitempty"`
+	Subject        string  `json:"Subject"`
 }
 
 func ProtoStudentToJson(proto *pb.StudentRequest) []byte {

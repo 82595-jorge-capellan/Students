@@ -37,7 +37,8 @@ func main() {
 		fmt.Println("1. Agregar estudiante")
 		fmt.Println("2. Cambiar nota de estudiante")
 		fmt.Println("3. Calcular nota final de estudiante")
-		fmt.Println("4. Salir")
+		fmt.Println("4. Buscar informacion de un estudiante")
+		fmt.Println("5. Salir")
 		fmt.Print("Elija una opción: ")
 
 		opcion, _ := reader.ReadString('\n')
@@ -51,6 +52,8 @@ func main() {
 		case "3":
 			CalculateFinalScore(reader, c)
 		case "4":
+			SearchAllStudentInfo(reader, c)
+		case "5":
 			fmt.Println("Saliendo del programa...")
 			return
 		default:
@@ -58,6 +61,35 @@ func main() {
 		}
 
 		fmt.Println()
+	}
+
+}
+
+func SearchAllStudentInfo(reader *bufio.Reader, c pb.SchoolClient) {
+	fmt.Println("\n--- Ingreso de datos de persona ---")
+	fmt.Print("Id: ")
+	idString, _ := reader.ReadString('\n')
+	idString = strings.TrimSpace(idString)
+	id64, _ := strconv.ParseInt(idString, 10, 32)
+	id := int32(id64)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	defer cancel()
+	r, err := c.SearchStudentByID(ctx, &pb.StudentSearchRequest{
+		Id: id,
+	})
+	if err != nil {
+		log.Fatalf("could not add student: %v", err)
+	}
+	fmt.Println("-------------")
+	for _, student := range r.GetStudentSubject() {
+		fmt.Printf("ID: %d\n", student.GetId())
+		fmt.Printf("Nombre: %s %s\n", student.GetFirstName(), student.GetLastName())
+		fmt.Printf("Examenes: %d, %d, %d\n", student.GetFirstExam(), student.GetSecondExam(), student.GetThirdExam())
+		fmt.Printf("trabajos practicos: %d\n", student.GetAsignmentScore())
+		fmt.Printf("nota final: %.2f\n", student.GetFinalScore())
+		fmt.Printf("Materia: %s\n", student.GetSubject())
+		fmt.Println("-------------")
 	}
 
 }
@@ -77,6 +109,10 @@ func AddStudent(reader *bufio.Reader, c pb.SchoolClient) {
 	fmt.Print("Apellido: ")
 	apellido, _ := reader.ReadString('\n')
 	apellido = strings.TrimSpace(apellido)
+
+	fmt.Print("Materia: ")
+	materia, _ := reader.ReadString('\n')
+	materia = strings.TrimSpace(materia)
 
 	fmt.Print("primer examen: ")
 	primerExamenString, _ := reader.ReadString('\n')
@@ -113,6 +149,7 @@ func AddStudent(reader *bufio.Reader, c pb.SchoolClient) {
 		ThirdExam:      tercerExamen,
 		AsignmentScore: trabajosPracticos,
 		FinalScore:     0,
+		Subject:        materia,
 	})
 	if err != nil {
 		log.Fatalf("could not add student: %v", err)
@@ -127,6 +164,10 @@ func AddScoreOfStudent(reader *bufio.Reader, c pb.SchoolClient) {
 	idString = strings.TrimSpace(idString)
 	id64, _ := strconv.ParseInt(idString, 10, 32)
 	id := int32(id64)
+
+	fmt.Print("Materia: ")
+	materia, _ := reader.ReadString('\n')
+	materia = strings.TrimSpace(materia)
 
 	fmt.Print("exam (1 - 2 - 3): ")
 	examString, _ := reader.ReadString('\n')
@@ -143,9 +184,10 @@ func AddScoreOfStudent(reader *bufio.Reader, c pb.SchoolClient) {
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	r, err := c.AddScoreOfStudent(ctx, &pb.StudentScoreRequest{
-		Id:    id,
-		Exam:  exam,
-		Score: score,
+		Id:      id,
+		Exam:    exam,
+		Score:   score,
+		Subject: materia,
 	})
 	if err != nil {
 		log.Fatalf("could not add student: %v", err)
@@ -162,10 +204,15 @@ func CalculateFinalScore(reader *bufio.Reader, c pb.SchoolClient) {
 	id64, _ := strconv.ParseInt(idString, 10, 32)
 	id := int32(id64)
 
+	fmt.Print("Materia: ")
+	materia, _ := reader.ReadString('\n')
+	materia = strings.TrimSpace(materia)
+
 	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
 	defer cancel()
 	r, err := c.CalculateFinalScore(ctx, &pb.StudentFinalScoreRequest{
-		Id: id,
+		Id:      id,
+		Subject: materia,
 	})
 	if err != nil {
 		log.Fatalf("could not add student: %v", err)

@@ -1,6 +1,8 @@
 package SchoolHandler
 
 import (
+	"math"
+
 	mapper "github.com/82595-jorge-capellan/mapper"
 	pb "github.com/82595-jorge-capellan/protobuf"
 	service "github.com/82595-jorge-capellan/service"
@@ -25,7 +27,7 @@ func AddStudent(in *pb.StudentRequest) (*pb.StudentResponse, error) {
 func AddScoreOfStudent(in *pb.StudentScoreRequest) (*pb.StudentResponse, error) {
 
 	//obtenemos el estudiante con el id que buscamos y el _id del documento de opensearch
-	student, docid, _ := service.SearchStudentByID(in.Id)
+	student, docid, _ := service.SearchStudentByID(in.Id, in.Subject)
 
 	switch in.GetExam() {
 	case 1:
@@ -47,21 +49,49 @@ func AddScoreOfStudent(in *pb.StudentScoreRequest) (*pb.StudentResponse, error) 
 func CalculateFinalScore(in *pb.StudentFinalScoreRequest) (*pb.StudentResponse, error) {
 
 	//obtenemos el estudiante con el id que buscamos y el _id del documento de opensearch
-	student, docid, _ := service.SearchStudentByID(in.Id)
+	student, docid, _ := service.SearchStudentByID(in.Id, in.Subject)
 
 	exam1 := student.FirstExam
 	exam2 := student.SecondExam
 	exam3 := student.ThirdExam
 	asignments := student.AsignmentScore
 
-	finalScore := (exam1 + exam2 + exam3 + asignments) / 4
+	sum := float32(exam1 + exam2 + exam3 + asignments)
+	finalScore := sum / 4
+	roundedScore := float32(math.Round(float64(finalScore)*100) / 100)
 
-	student.FinalScore = finalScore
+	student.FinalScore = roundedScore
 
 	//agregamos el estudiante con un _id de documento especifico para que sobreescriba el estudiante anterior(el mismo)
 	res, _ := service.AddStudent(student, docid)
 	return &pb.StudentResponse{
 		Status:     res,
 		FinalScore: 0,
+	}, nil
+}
+
+func SearchStudentByID(in *pb.StudentSearchRequest) (*pb.StudentSearchResponse, error) {
+
+	students := service.SearchStudentByIDAllSubjects(in.Id)
+
+	var grpcStudents []*pb.StudentRequest
+
+	for _, s := range students {
+		grpcStudent := &pb.StudentRequest{
+			Id:             s.Id,
+			FirstName:      s.FirstName,
+			LastName:       s.LastName,
+			FirstExam:      s.FirstExam,
+			SecondExam:     s.SecondExam,
+			ThirdExam:      s.ThirdExam,
+			AsignmentScore: s.AsignmentScore,
+			FinalScore:     s.FinalScore,
+			Subject:        s.Subject,
+		}
+		grpcStudents = append(grpcStudents, grpcStudent)
+	}
+
+	return &pb.StudentSearchResponse{
+		StudentSubject: grpcStudents,
 	}, nil
 }
