@@ -2,7 +2,7 @@
 // versions:
 // 	protoc-gen-go v1.36.6
 // 	protoc        v6.31.0
-// source: school.proto
+// source: School.proto
 
 package school_protos
 
@@ -30,7 +30,7 @@ type StudentSearchRequest struct {
 
 func (x *StudentSearchRequest) Reset() {
 	*x = StudentSearchRequest{}
-	mi := &file_school_proto_msgTypes[0]
+	mi := &file_School_proto_msgTypes[0]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -42,7 +42,7 @@ func (x *StudentSearchRequest) String() string {
 func (*StudentSearchRequest) ProtoMessage() {}
 
 func (x *StudentSearchRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_school_proto_msgTypes[0]
+	mi := &file_School_proto_msgTypes[0]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -55,7 +55,7 @@ func (x *StudentSearchRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StudentSearchRequest.ProtoReflect.Descriptor instead.
 func (*StudentSearchRequest) Descriptor() ([]byte, []int) {
-	return file_school_proto_rawDescGZIP(), []int{0}
+	return file_School_proto_rawDescGZIP(), []int{0}
 }
 
 func (x *StudentSearchRequest) GetId() int32 {
@@ -74,7 +74,7 @@ type StudentSearchResponse struct {
 
 func (x *StudentSearchResponse) Reset() {
 	*x = StudentSearchResponse{}
-	mi := &file_school_proto_msgTypes[1]
+	mi := &file_School_proto_msgTypes[1]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -86,7 +86,7 @@ func (x *StudentSearchResponse) String() string {
 func (*StudentSearchResponse) ProtoMessage() {}
 
 func (x *StudentSearchResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_school_proto_msgTypes[1]
+	mi := &file_School_proto_msgTypes[1]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -99,7 +99,7 @@ func (x *StudentSearchResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StudentSearchResponse.ProtoReflect.Descriptor instead.
 func (*StudentSearchResponse) Descriptor() ([]byte, []int) {
-	return file_school_proto_rawDescGZIP(), []int{1}
+	return file_School_proto_rawDescGZIP(), []int{1}
 }
 
 func (x *StudentSearchResponse) GetStudentSubject() []*StudentRequest {
@@ -126,7 +126,7 @@ type StudentRequest struct {
 
 func (x *StudentRequest) Reset() {
 	*x = StudentRequest{}
-	mi := &file_school_proto_msgTypes[2]
+	mi := &file_School_proto_msgTypes[2]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -138,7 +138,7 @@ func (x *StudentRequest) String() string {
 func (*StudentRequest) ProtoMessage() {}
 
 func (x *StudentRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_school_proto_msgTypes[2]
+	mi := &file_School_proto_msgTypes[2]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -151,7 +151,7 @@ func (x *StudentRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StudentRequest.ProtoReflect.Descriptor instead.
 func (*StudentRequest) Descriptor() ([]byte, []int) {
-	return file_school_proto_rawDescGZIP(), []int{2}
+	return file_School_proto_rawDescGZIP(), []int{2}
 }
 
 func (x *StudentRequest) GetId() int32 {
@@ -227,7 +227,7 @@ type StudentResponse struct {
 
 func (x *StudentResponse) Reset() {
 	*x = StudentResponse{}
-	mi := &file_school_proto_msgTypes[3]
+	mi := &file_School_proto_msgTypes[3]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -239,7 +239,7 @@ func (x *StudentResponse) String() string {
 func (*StudentResponse) ProtoMessage() {}
 
 func (x *StudentResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_school_proto_msgTypes[3]
+	mi := &file_School_proto_msgTypes[3]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -252,7 +252,7 @@ func (x *StudentResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StudentResponse.ProtoReflect.Descriptor instead.
 func (*StudentResponse) Descriptor() ([]byte, []int) {
-	return file_school_proto_rawDescGZIP(), []int{3}
+	return file_School_proto_rawDescGZIP(), []int{3}
 }
 
 func (x *StudentResponse) GetStatus() string {
@@ -281,7 +281,7 @@ type StudentScoreRequest struct {
 
 func (x *StudentScoreRequest) Reset() {
 	*x = StudentScoreRequest{}
-	mi := &file_school_proto_msgTypes[4]
+	mi := &file_School_proto_msgTypes[4]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -293,7 +293,7 @@ func (x *StudentScoreRequest) String() string {
 func (*StudentScoreRequest) ProtoMessage() {}
 
 func (x *StudentScoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_school_proto_msgTypes[4]
+	mi := &file_School_proto_msgTypes[4]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -306,7 +306,7 @@ func (x *StudentScoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StudentScoreRequest.ProtoReflect.Descriptor instead.
 func (*StudentScoreRequest) Descriptor() ([]byte, []int) {
-	return file_school_proto_rawDescGZIP(), []int{4}
+	return file_School_proto_rawDescGZIP(), []int{4}
 }
 
 func (x *StudentScoreRequest) GetId() int32 {
@@ -347,7 +347,7 @@ type StudentFinalScoreRequest struct {
 
 func (x *StudentFinalScoreRequest) Reset() {
 	*x = StudentFinalScoreRequest{}
-	mi := &file_school_proto_msgTypes[5]
+	mi := &file_School_proto_msgTypes[5]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -359,7 +359,7 @@ func (x *StudentFinalScoreRequest) String() string {
 func (*StudentFinalScoreRequest) ProtoMessage() {}
 
 func (x *StudentFinalScoreRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_school_proto_msgTypes[5]
+	mi := &file_School_proto_msgTypes[5]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -372,7 +372,7 @@ func (x *StudentFinalScoreRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use StudentFinalScoreRequest.ProtoReflect.Descriptor instead.
 func (*StudentFinalScoreRequest) Descriptor() ([]byte, []int) {
-	return file_school_proto_rawDescGZIP(), []int{5}
+	return file_School_proto_rawDescGZIP(), []int{5}
 }
 
 func (x *StudentFinalScoreRequest) GetId() int32 {
@@ -389,11 +389,11 @@ func (x *StudentFinalScoreRequest) GetSubject() string {
 	return ""
 }
 
-var File_school_proto protoreflect.FileDescriptor
+var File_School_proto protoreflect.FileDescriptor
 
-const file_school_proto_rawDesc = "" +
+const file_School_proto_rawDesc = "" +
 	"\n" +
-	"\fschool.proto\x12\x04data\"&\n" +
+	"\fSchool.proto\x12\x04data\"&\n" +
 	"\x14StudentSearchRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\"U\n" +
 	"\x15StudentSearchResponse\x12<\n" +
@@ -424,28 +424,31 @@ const file_school_proto_rawDesc = "" +
 	"\asubject\x18\x04 \x01(\tR\asubject\"D\n" +
 	"\x18StudentFinalScoreRequest\x12\x0e\n" +
 	"\x02id\x18\x01 \x01(\x05R\x02id\x12\x18\n" +
-	"\asubject\x18\x02 \x01(\tR\asubject2\xae\x02\n" +
+	"\asubject\x18\x02 \x01(\tR\asubject2\xa5\x04\n" +
 	"\x06School\x12;\n" +
 	"\n" +
 	"AddStudent\x12\x14.data.StudentRequest\x1a\x15.data.StudentResponse\"\x00\x12G\n" +
 	"\x11AddScoreOfStudent\x12\x19.data.StudentScoreRequest\x1a\x15.data.StudentResponse\"\x00\x12N\n" +
 	"\x13calculateFinalScore\x12\x1e.data.StudentFinalScoreRequest\x1a\x15.data.StudentResponse\"\x00\x12N\n" +
-	"\x11SearchStudentByID\x12\x1a.data.StudentSearchRequest\x1a\x1b.data.StudentSearchResponse\"\x00B/Z-github.com/82595-jorge-capellan/school_protosb\x06proto3"
+	"\x11SearchStudentByID\x12\x1a.data.StudentSearchRequest\x1a\x1b.data.StudentSearchResponse\"\x00\x12Q\n" +
+	"\x14SearchStudentByIDSec\x12\x1a.data.StudentSearchRequest\x1a\x1b.data.StudentSearchResponse\"\x00\x12P\n" +
+	"\x13SearchStudentByIDGo\x12\x1a.data.StudentSearchRequest\x1a\x1b.data.StudentSearchResponse\"\x00\x12P\n" +
+	"\x13SearchStudentByIDMS\x12\x1a.data.StudentSearchRequest\x1a\x1b.data.StudentSearchResponse\"\x00B/Z-github.com/82595-jorge-capellan/school_protosb\x06proto3"
 
 var (
-	file_school_proto_rawDescOnce sync.Once
-	file_school_proto_rawDescData []byte
+	file_School_proto_rawDescOnce sync.Once
+	file_School_proto_rawDescData []byte
 )
 
-func file_school_proto_rawDescGZIP() []byte {
-	file_school_proto_rawDescOnce.Do(func() {
-		file_school_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_school_proto_rawDesc), len(file_school_proto_rawDesc)))
+func file_School_proto_rawDescGZIP() []byte {
+	file_School_proto_rawDescOnce.Do(func() {
+		file_School_proto_rawDescData = protoimpl.X.CompressGZIP(unsafe.Slice(unsafe.StringData(file_School_proto_rawDesc), len(file_School_proto_rawDesc)))
 	})
-	return file_school_proto_rawDescData
+	return file_School_proto_rawDescData
 }
 
-var file_school_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
-var file_school_proto_goTypes = []any{
+var file_School_proto_msgTypes = make([]protoimpl.MessageInfo, 6)
+var file_School_proto_goTypes = []any{
 	(*StudentSearchRequest)(nil),     // 0: data.StudentSearchRequest
 	(*StudentSearchResponse)(nil),    // 1: data.StudentSearchResponse
 	(*StudentRequest)(nil),           // 2: data.StudentRequest
@@ -453,43 +456,49 @@ var file_school_proto_goTypes = []any{
 	(*StudentScoreRequest)(nil),      // 4: data.StudentScoreRequest
 	(*StudentFinalScoreRequest)(nil), // 5: data.StudentFinalScoreRequest
 }
-var file_school_proto_depIdxs = []int32{
+var file_School_proto_depIdxs = []int32{
 	2, // 0: data.StudentSearchResponse.studentSubject:type_name -> data.StudentRequest
 	2, // 1: data.School.AddStudent:input_type -> data.StudentRequest
 	4, // 2: data.School.AddScoreOfStudent:input_type -> data.StudentScoreRequest
 	5, // 3: data.School.calculateFinalScore:input_type -> data.StudentFinalScoreRequest
 	0, // 4: data.School.SearchStudentByID:input_type -> data.StudentSearchRequest
-	3, // 5: data.School.AddStudent:output_type -> data.StudentResponse
-	3, // 6: data.School.AddScoreOfStudent:output_type -> data.StudentResponse
-	3, // 7: data.School.calculateFinalScore:output_type -> data.StudentResponse
-	1, // 8: data.School.SearchStudentByID:output_type -> data.StudentSearchResponse
-	5, // [5:9] is the sub-list for method output_type
-	1, // [1:5] is the sub-list for method input_type
+	0, // 5: data.School.SearchStudentByIDSec:input_type -> data.StudentSearchRequest
+	0, // 6: data.School.SearchStudentByIDGo:input_type -> data.StudentSearchRequest
+	0, // 7: data.School.SearchStudentByIDMS:input_type -> data.StudentSearchRequest
+	3, // 8: data.School.AddStudent:output_type -> data.StudentResponse
+	3, // 9: data.School.AddScoreOfStudent:output_type -> data.StudentResponse
+	3, // 10: data.School.calculateFinalScore:output_type -> data.StudentResponse
+	1, // 11: data.School.SearchStudentByID:output_type -> data.StudentSearchResponse
+	1, // 12: data.School.SearchStudentByIDSec:output_type -> data.StudentSearchResponse
+	1, // 13: data.School.SearchStudentByIDGo:output_type -> data.StudentSearchResponse
+	1, // 14: data.School.SearchStudentByIDMS:output_type -> data.StudentSearchResponse
+	8, // [8:15] is the sub-list for method output_type
+	1, // [1:8] is the sub-list for method input_type
 	1, // [1:1] is the sub-list for extension type_name
 	1, // [1:1] is the sub-list for extension extendee
 	0, // [0:1] is the sub-list for field type_name
 }
 
-func init() { file_school_proto_init() }
-func file_school_proto_init() {
-	if File_school_proto != nil {
+func init() { file_School_proto_init() }
+func file_School_proto_init() {
+	if File_School_proto != nil {
 		return
 	}
 	type x struct{}
 	out := protoimpl.TypeBuilder{
 		File: protoimpl.DescBuilder{
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
-			RawDescriptor: unsafe.Slice(unsafe.StringData(file_school_proto_rawDesc), len(file_school_proto_rawDesc)),
+			RawDescriptor: unsafe.Slice(unsafe.StringData(file_School_proto_rawDesc), len(file_School_proto_rawDesc)),
 			NumEnums:      0,
 			NumMessages:   6,
 			NumExtensions: 0,
 			NumServices:   1,
 		},
-		GoTypes:           file_school_proto_goTypes,
-		DependencyIndexes: file_school_proto_depIdxs,
-		MessageInfos:      file_school_proto_msgTypes,
+		GoTypes:           file_School_proto_goTypes,
+		DependencyIndexes: file_School_proto_depIdxs,
+		MessageInfos:      file_School_proto_msgTypes,
 	}.Build()
-	File_school_proto = out.File
-	file_school_proto_goTypes = nil
-	file_school_proto_depIdxs = nil
+	File_School_proto = out.File
+	file_School_proto_goTypes = nil
+	file_School_proto_depIdxs = nil
 }

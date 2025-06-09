@@ -1,0 +1,15 @@
+105129300 ms
+184257200 sec
+72244400  goroutine
+
+92968300 MS
+196671900 SEC
+64388700 goroutine
+
+
+injectar cliente <- hecho
+comprobar hilos de opensearch <- en teoria usan los mismo que el host, investigar mas
+script para cargar miles de datos <- hecho
+test con cientos de queries <-
+j6k o buscar mas info sobre test automatizados en go <-
+ver como forzar hilos diferentes en go

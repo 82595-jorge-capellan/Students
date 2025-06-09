@@ -9,6 +9,9 @@ service School {
   rpc AddScoreOfStudent (StudentScoreRequest) returns (StudentResponse) {}
   rpc calculateFinalScore (StudentFinalScoreRequest) returns (StudentResponse) {}
   rpc SearchStudentByID (StudentSearchRequest) returns (StudentSearchResponse) {}
+  rpc SearchStudentByIDSec (StudentSearchRequest) returns (StudentSearchResponse) {}
+  rpc SearchStudentByIDGo (StudentSearchRequest) returns (StudentSearchResponse) {}
+  rpc SearchStudentByIDMS (StudentSearchRequest) returns (StudentSearchResponse) {}
 }
 
 message StudentSearchRequest {

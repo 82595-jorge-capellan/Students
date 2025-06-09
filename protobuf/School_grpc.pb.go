@@ -2,7 +2,7 @@
 // versions:
 // - protoc-gen-go-grpc v1.5.1
 // - protoc             v6.31.0
-// source: school.proto
+// source: School.proto
 
 package school_protos
 
@@ -19,10 +19,13 @@ import (
 const _ = grpc.SupportPackageIsVersion9
 
 const (
-	School_AddStudent_FullMethodName          = "/data.School/AddStudent"
-	School_AddScoreOfStudent_FullMethodName   = "/data.School/AddScoreOfStudent"
-	School_CalculateFinalScore_FullMethodName = "/data.School/calculateFinalScore"
-	School_SearchStudentByID_FullMethodName   = "/data.School/SearchStudentByID"
+	School_AddStudent_FullMethodName           = "/data.School/AddStudent"
+	School_AddScoreOfStudent_FullMethodName    = "/data.School/AddScoreOfStudent"
+	School_CalculateFinalScore_FullMethodName  = "/data.School/calculateFinalScore"
+	School_SearchStudentByID_FullMethodName    = "/data.School/SearchStudentByID"
+	School_SearchStudentByIDSec_FullMethodName = "/data.School/SearchStudentByIDSec"
+	School_SearchStudentByIDGo_FullMethodName  = "/data.School/SearchStudentByIDGo"
+	School_SearchStudentByIDMS_FullMethodName  = "/data.School/SearchStudentByIDMS"
 )
 
 // SchoolClient is the client API for School service.
@@ -33,6 +36,9 @@ type SchoolClient interface {
 	AddScoreOfStudent(ctx context.Context, in *StudentScoreRequest, opts ...grpc.CallOption) (*StudentResponse, error)
 	CalculateFinalScore(ctx context.Context, in *StudentFinalScoreRequest, opts ...grpc.CallOption) (*StudentResponse, error)
 	SearchStudentByID(ctx context.Context, in *StudentSearchRequest, opts ...grpc.CallOption) (*StudentSearchResponse, error)
+	SearchStudentByIDSec(ctx context.Context, in *StudentSearchRequest, opts ...grpc.CallOption) (*StudentSearchResponse, error)
+	SearchStudentByIDGo(ctx context.Context, in *StudentSearchRequest, opts ...grpc.CallOption) (*StudentSearchResponse, error)
+	SearchStudentByIDMS(ctx context.Context, in *StudentSearchRequest, opts ...grpc.CallOption) (*StudentSearchResponse, error)
 }
 
 type schoolClient struct {
@@ -83,6 +89,36 @@ func (c *schoolClient) SearchStudentByID(ctx context.Context, in *StudentSearchR
 	return out, nil
 }
 
+func (c *schoolClient) SearchStudentByIDSec(ctx context.Context, in *StudentSearchRequest, opts ...grpc.CallOption) (*StudentSearchResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StudentSearchResponse)
+	err := c.cc.Invoke(ctx, School_SearchStudentByIDSec_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *schoolClient) SearchStudentByIDGo(ctx context.Context, in *StudentSearchRequest, opts ...grpc.CallOption) (*StudentSearchResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StudentSearchResponse)
+	err := c.cc.Invoke(ctx, School_SearchStudentByIDGo_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
+func (c *schoolClient) SearchStudentByIDMS(ctx context.Context, in *StudentSearchRequest, opts ...grpc.CallOption) (*StudentSearchResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(StudentSearchResponse)
+	err := c.cc.Invoke(ctx, School_SearchStudentByIDMS_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 // SchoolServer is the server API for School service.
 // All implementations must embed UnimplementedSchoolServer
 // for forward compatibility.
@@ -91,6 +127,9 @@ type SchoolServer interface {
 	AddScoreOfStudent(context.Context, *StudentScoreRequest) (*StudentResponse, error)
 	CalculateFinalScore(context.Context, *StudentFinalScoreRequest) (*StudentResponse, error)
 	SearchStudentByID(context.Context, *StudentSearchRequest) (*StudentSearchResponse, error)
+	SearchStudentByIDSec(context.Context, *StudentSearchRequest) (*StudentSearchResponse, error)
+	SearchStudentByIDGo(context.Context, *StudentSearchRequest) (*StudentSearchResponse, error)
+	SearchStudentByIDMS(context.Context, *StudentSearchRequest) (*StudentSearchResponse, error)
 	mustEmbedUnimplementedSchoolServer()
 }
 
@@ -112,6 +151,15 @@ func (UnimplementedSchoolServer) CalculateFinalScore(context.Context, *StudentFi
 }
 func (UnimplementedSchoolServer) SearchStudentByID(context.Context, *StudentSearchRequest) (*StudentSearchResponse, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method SearchStudentByID not implemented")
+}
+func (UnimplementedSchoolServer) SearchStudentByIDSec(context.Context, *StudentSearchRequest) (*StudentSearchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchStudentByIDSec not implemented")
+}
+func (UnimplementedSchoolServer) SearchStudentByIDGo(context.Context, *StudentSearchRequest) (*StudentSearchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchStudentByIDGo not implemented")
+}
+func (UnimplementedSchoolServer) SearchStudentByIDMS(context.Context, *StudentSearchRequest) (*StudentSearchResponse, error) {
+	return nil, status.Errorf(codes.Unimplemented, "method SearchStudentByIDMS not implemented")
 }
 func (UnimplementedSchoolServer) mustEmbedUnimplementedSchoolServer() {}
 func (UnimplementedSchoolServer) testEmbeddedByValue()                {}
@@ -206,6 +254,60 @@ func _School_SearchStudentByID_Handler(srv interface{}, ctx context.Context, dec
 	return interceptor(ctx, in, info, handler)
 }
 
+func _School_SearchStudentByIDSec_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StudentSearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchoolServer).SearchStudentByIDSec(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: School_SearchStudentByIDSec_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchoolServer).SearchStudentByIDSec(ctx, req.(*StudentSearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _School_SearchStudentByIDGo_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StudentSearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchoolServer).SearchStudentByIDGo(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: School_SearchStudentByIDGo_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchoolServer).SearchStudentByIDGo(ctx, req.(*StudentSearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
+func _School_SearchStudentByIDMS_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(StudentSearchRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SchoolServer).SearchStudentByIDMS(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: School_SearchStudentByIDMS_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SchoolServer).SearchStudentByIDMS(ctx, req.(*StudentSearchRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 // School_ServiceDesc is the grpc.ServiceDesc for School service.
 // It's only intended for direct use with grpc.RegisterService,
 // and not to be introspected or modified (even as a copy)
@@ -229,7 +331,19 @@ var School_ServiceDesc = grpc.ServiceDesc{
 			MethodName: "SearchStudentByID",
 			Handler:    _School_SearchStudentByID_Handler,
 		},
+		{
+			MethodName: "SearchStudentByIDSec",
+			Handler:    _School_SearchStudentByIDSec_Handler,
+		},
+		{
+			MethodName: "SearchStudentByIDGo",
+			Handler:    _School_SearchStudentByIDGo_Handler,
+		},
+		{
+			MethodName: "SearchStudentByIDMS",
+			Handler:    _School_SearchStudentByIDMS_Handler,
+		},
 	},
 	Streams:  []grpc.StreamDesc{},
-	Metadata: "school.proto",
+	Metadata: "School.proto",
 }

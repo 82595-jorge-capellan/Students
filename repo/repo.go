@@ -35,24 +35,44 @@ type MSearchResponse struct {
 	} `json:"responses"`
 }
 
-func AddStudent(student *mapper.StudentRequestModel, optionalID string) (string, error) {
+type Repo struct {
+	Client *opensearch.Client
+}
 
-	//creamos el cliente de opensearch con ip, credenciales y configuraciones de transporte
+func NewRepo() (*Repo, error) {
 	client, err := opensearch.NewClient(opensearch.Config{
 		Transport: &http.Transport{
 			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
 		},
 		Addresses: []string{"https://localhost:9200"},
-		Username:  "admin", // For testing only. Don't store credentials in code.
+		Username:  "admin", // No poner credenciales en código en producción.
 		Password:  "Opensearch1234*",
 	})
 	if err != nil {
-		log.Fatalf("Error creando el cliente de OpenSearch: %s", err)
+		return nil, err
 	}
 
+	return &Repo{Client: client}, nil
+}
+
+func (o *Repo) AddStudent(student *mapper.StudentRequestModel, optionalID string) (string, error) {
+
+	//creamos el cliente de opensearch con ip, credenciales y configuraciones de transporte
+	// client, err := opensearch.NewClient(opensearch.Config{
+	// 	Transport: &http.Transport{
+	// 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	// 	},
+	// 	Addresses: []string{"https://localhost:9200"},
+	// 	Username:  "admin", // For testing only. Don't store credentials in code.
+	// 	Password:  "Opensearch1234*",
+	// })
+	// if err != nil {
+	// 	log.Fatalf("Error creando el cliente de OpenSearch: %s", err)
+	// }
+
 	//impresion de datos del cliente de opensearch
-	clientres, err := client.Info()
-	fmt.Printf("client: %v - error: %v", clientres, err)
+	// clientres, err := o.Client.Info()
+	// fmt.Printf("client: %v - error: %v", clientres, err)
 
 	//pasamos el model a json para pasarlo como body de la request
 	studentBytes, _ := json.Marshal(student)
@@ -68,23 +88,23 @@ func AddStudent(student *mapper.StudentRequestModel, optionalID string) (string,
 		req.DocumentID = optionalID
 	}
 
-	res, _ := req.Do(context.Background(), client)
+	res, _ := req.Do(context.Background(), o.Client)
 	defer res.Body.Close()
 	return res.String(), nil
 }
 
-func SearchStudentByID(id int32, subject string) (mapper.StudentRequestModel, string, error) {
-	client, err := opensearch.NewClient(opensearch.Config{
-		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		},
-		Addresses: []string{"https://localhost:9200"},
-		Username:  "admin", // For testing only. Don't store credentials in code.
-		Password:  "Opensearch1234*",
-	})
-	if err != nil {
-		log.Fatalf("Error creando el cliente de OpenSearch: %s", err)
-	}
+func (o *Repo) SearchStudentByID(id int32, subject string) (mapper.StudentRequestModel, string, error) {
+	// client, err := opensearch.NewClient(opensearch.Config{
+	// 	Transport: &http.Transport{
+	// 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	// 	},
+	// 	Addresses: []string{"https://localhost:9200"},
+	// 	Username:  "admin", // For testing only. Don't store credentials in code.
+	// 	Password:  "Opensearch1234*",
+	// })
+	// if err != nil {
+	// 	log.Fatalf("Error creando el cliente de OpenSearch: %s", err)
+	// }
 	// clientResponse, err := client.Info()
 	// fmt.Printf("client: %v - error: %v", clientResponse, err)
 
@@ -107,7 +127,7 @@ func SearchStudentByID(id int32, subject string) (mapper.StudentRequestModel, st
 		Body:  bytes.NewReader(content),
 	}
 
-	res, _ := req.Do(context.Background(), client)
+	res, _ := req.Do(context.Background(), o.Client)
 
 	var body OpenSearchResponse
 
@@ -119,18 +139,18 @@ func SearchStudentByID(id int32, subject string) (mapper.StudentRequestModel, st
 	return body.Hits.Hits[0].Source, body.Hits.Hits[0].ID, nil
 }
 
-func MsearchSearchStudent(id int32) []mapper.StudentRequestModel {
-	client, err := opensearch.NewClient(opensearch.Config{
-		Transport: &http.Transport{
-			TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
-		},
-		Addresses: []string{"https://localhost:9200"},
-		Username:  "admin", // For testing only. Don't store credentials in code.
-		Password:  "Opensearch1234*",
-	})
-	if err != nil {
-		log.Fatalf("Error creando el cliente de OpenSearch: %s", err)
-	}
+func (o *Repo) MsearchSearchStudent(id int32) []mapper.StudentRequestModel {
+	// client, err := opensearch.NewClient(opensearch.Config{
+	// 	Transport: &http.Transport{
+	// 		TLSClientConfig: &tls.Config{InsecureSkipVerify: true},
+	// 	},
+	// 	Addresses: []string{"https://localhost:9200"},
+	// 	Username:  "admin", // For testing only. Don't store credentials in code.
+	// 	Password:  "Opensearch1234*",
+	// })
+	// if err != nil {
+	// 	log.Fatalf("Error creando el cliente de OpenSearch: %s", err)
+	// }
 	// clientResponse, err := client.Info()
 	// fmt.Printf("client: %v - error: %v", clientResponse, err)
 
@@ -166,7 +186,7 @@ func MsearchSearchStudent(id int32) []mapper.StudentRequestModel {
 		Body: bytes.NewReader(buffer.Bytes()),
 	}
 
-	res, _ := req.Do(context.Background(), client)
+	res, _ := req.Do(context.Background(), o.Client)
 
 	var msearchResp MSearchResponse
 
